@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "790476190300",
+    "firebase_url": "https://pudim-perfeito-default-rtdb.firebaseio.com",
+    "project_id": "pudim-perfeito",
+    "storage_bucket": "pudim-perfeito.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790476190300:android:7a2b813dce48e190b86c99",
+        "android_client_info": {
+          "package_name": "com.example.app_cozinha"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvzt6HqsGyAM1Mcc4SQ8SYyjWvNUJnkSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790476190300:android:ecfbe0fc0a4c6e83b86c99",
+        "android_client_info": {
+          "package_name": "com.example.crm_pudim"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvzt6HqsGyAM1Mcc4SQ8SYyjWvNUJnkSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790476190300:android:cababec95b0ef675b86c99",
+        "android_client_info": {
+          "package_name": "com.example.totem_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvzt6HqsGyAM1Mcc4SQ8SYyjWvNUJnkSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
