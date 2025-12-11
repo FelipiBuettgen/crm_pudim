@@ -87,14 +87,6 @@ class OverviewScreen extends StatelessWidget {
                         color: AppTheme.warning,
                       ),
                       StatCard(
-                        title: 'Clientes',
-                        value: '${stats['customers']}',
-                        change: stats['customersChange'],
-                        isIncrease: stats['customersIncrease'],
-                        icon: FontAwesomeIcons.users,
-                        color: AppTheme.danger,
-                      ),
-                      StatCard(
                         title: 'Tempo Médio',
                         value: '${stats['avgPrepTime']} min',
                         change: stats['prepTimeChange'],

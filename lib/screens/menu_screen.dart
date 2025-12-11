@@ -43,9 +43,9 @@ class MenuScreen extends StatelessWidget {
                   Row(
                     children: [
                       ElevatedButton.icon(
-                        onPressed: () => _showAddCategoryDialog(context),
+                        onPressed: () => _showManageCategoriesDialog(context),
                         icon: const Icon(Icons.category),
-                        label: const Text('Nova Categoria'),
+                        label: const Text('Categorias'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.secondary,
                           foregroundColor: Colors.white,
@@ -207,52 +207,124 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
-  void _showAddCategoryDialog(BuildContext context) {
+  void _showManageCategoriesDialog(BuildContext context) {
     final controller = TextEditingController();
+    final firebaseService = FirebaseService();
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Nova Categoria'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(
-            labelText: 'Nome da Categoria',
-            hintText: 'Ex: Sobremesas, Bebidas',
+        title: const Text('Gerenciar Categorias'),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: controller,
+                      decoration: const InputDecoration(
+                        labelText: 'Nova Categoria',
+                        hintText: 'Ex: Sobremesas',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    icon: const Icon(Icons.add_circle, color: AppTheme.success),
+                    onPressed: () async {
+                      if (controller.text.isNotEmpty) {
+                        try {
+                          await firebaseService.addCategory(controller.text);
+                          controller.clear();
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(SnackBar(content: Text('Erro: $e')));
+                          }
+                        }
+                      }
+                    },
+                    tooltip: 'Adicionar',
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const Divider(),
+              const SizedBox(height: 8),
+              Flexible(
+                child: StreamBuilder<List<MenuCategory>>(
+                  stream: firebaseService.getCategories(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Erro: ${snapshot.error}');
+                    }
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    final categories = snapshot.data!;
+                    if (categories.isEmpty) {
+                      return const Text('Nenhuma categoria cadastrada.');
+                    }
+
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: categories.length,
+                      itemBuilder: (context, index) {
+                        final category = categories[index];
+                        return ListTile(
+                          title: Text(category.name),
+                          trailing: IconButton(
+                            icon: const Icon(
+                              Icons.delete,
+                              color: AppTheme.danger,
+                            ),
+                            onPressed: () async {
+                              // Confirm delete
+                              final confirm = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Confirmar'),
+                                  content: Text('Excluir "${category.name}"?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, false),
+                                      child: const Text('Cancelar'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, true),
+                                      child: const Text('Excluir'),
+                                    ),
+                                  ],
+                                ),
+                              );
+
+                              if (confirm == true) {
+                                await firebaseService.deleteCategory(
+                                  category.id,
+                                );
+                              }
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancelar'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              if (controller.text.isNotEmpty) {
-                try {
-                  await FirebaseService().addCategory(controller.text);
-                  if (context.mounted) {
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Categoria adicionada com sucesso!'),
-                        backgroundColor: AppTheme.success,
-                      ),
-                    );
-                  }
-                } catch (e) {
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Erro ao adicionar categoria: $e'),
-                        backgroundColor: AppTheme.danger,
-                      ),
-                    );
-                  }
-                }
-              }
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primary),
-            child: const Text('Salvar', style: TextStyle(color: Colors.white)),
+            child: const Text('Fechar'),
           ),
         ],
       ),

@@ -154,6 +154,11 @@ class FirebaseService {
     return newRef.set({'id': newRef.key, 'name': name});
   }
 
+  // Delete Category
+  Future<void> deleteCategory(String id) {
+    return _db.child('categories').child(id).remove();
+  }
+
   // Delete Menu Item
   Future<void> deleteMenuItem(String id) {
     return _db.child('menu_items').child(id).remove();
