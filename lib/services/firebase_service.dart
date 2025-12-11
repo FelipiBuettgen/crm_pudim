@@ -148,6 +148,17 @@ class FirebaseService {
     return await snapshot.ref.getDownloadURL();
   }
 
+  // Add Category
+  Future<void> addCategory(String name) {
+    final newRef = _db.child('categories').push();
+    return newRef.set({'id': newRef.key, 'name': name});
+  }
+
+  // Delete Menu Item
+  Future<void> deleteMenuItem(String id) {
+    return _db.child('menu_items').child(id).remove();
+  }
+
   // Update Order Status
   Future<void> updateOrderStatus(String orderId, OrderStatus status) {
     final Map<String, dynamic> updates = {'status': status.name};
