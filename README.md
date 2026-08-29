@@ -1,16 +1,21 @@
-# crm_pudim
+# CRM Pudim
 
-A new Flutter project.
+Aplicativo em Flutter para gestão de uma loja/produção de pudins: cardápio, pedidos e visão geral do negócio em um único painel, com dados sincronizados em tempo real pelo Firebase.
 
-## Getting Started
+## Funcionalidades
 
-This project is a starting point for a Flutter application.
+- Dashboard: visão geral com gráficos (fl_chart) de vendas e desempenho.
+- Cardápio: cadastro e gerenciamento de itens/categorias, com upload de imagens.
+- Pedidos: acompanhamento e controle dos pedidos.
+- Overview: resumo consolidado das principais métricas do negócio.
 
-A few resources to get you started if this is your first Flutter project:
+## Tecnologias
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter / Dart
+- Firebase (Realtime Database, Storage)
+- Provider (gerenciamento de estado)
+- fl_chart, google_fonts, image_picker
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Status
+
+Projeto pessoal desenvolvido em dezembro de 2025, com estrutura em `models`, `screens`, `services` e `widgets`, e suporte a Web, Windows, Android e iOS.
